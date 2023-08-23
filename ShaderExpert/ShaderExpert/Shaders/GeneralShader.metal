@@ -25,7 +25,7 @@ vertex VertexOut vertex_main(constant Vertex *vertices [[buffer(0)]],
 fragment float4 fragment_main(constant Inputs &inputs [[ buffer(InputIndex) ]],
                               VertexOut in [[stage_in]]) {
     float2 uv = float2(in.pos.xy / inputs.screenSize);
-    //uv.y -= 1.0;
+    uv.y = 1.0 - uv.y;
     float3 backgroundColor = float3(1.0);
     float3 axesColor = float3(0.0, 0.0, 1.0);
     float3 gridColor = float3(0.5);
