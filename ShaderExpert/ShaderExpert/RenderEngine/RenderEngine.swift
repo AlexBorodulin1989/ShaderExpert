@@ -22,6 +22,8 @@ class RenderEngine: NSObject {
 
     private var depthState: MTLDepthStencilState!
 
+    var inputs = Inputs()
+
     init(mtkView: MTKView) {
         guard
             let device = MTLCreateSystemDefaultDevice()
@@ -91,8 +93,8 @@ extension RenderEngine: MTKViewDelegate {
     func mtkView(_ view: MTKView,
                  drawableSizeWillChange size: CGSize
     ) {
-        let width = size.width > 1 ? size.width : 1
-        aspectRatio = Float(size.height / width)
+        inputs.screenSize = float2(x: Float(size.width),
+                                   y: Float(size.height))
     }
 
     func draw(in view: MTKView) {
@@ -104,6 +106,10 @@ extension RenderEngine: MTKViewDelegate {
         }
 
         renderEncoder.setDepthStencilState(depthState)
+
+        renderEncoder.setFragmentBytes(&inputs,
+                                       length: MemoryLayout<Inputs>.stride,
+                                       index: InputIndex.value)
 
         renderEncoder.setRenderPipelineState(pipelineState)
         renderEncoder.setVertexBuffer(mesh.vBuffer,
