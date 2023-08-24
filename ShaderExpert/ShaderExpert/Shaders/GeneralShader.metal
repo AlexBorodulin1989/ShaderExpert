@@ -22,16 +22,24 @@ vertex VertexOut vertex_main(constant Vertex *vertices [[buffer(0)]],
     return result;
 }
 
+float sqrtFunction(float x) {
+    return sqrt(x);
+}
+
 fragment float4 fragment_main(constant Inputs &inputs [[ buffer(InputIndex) ]],
                               VertexOut in [[stage_in]]) {
+    const float delta = 0.00001;
+    const float scale = 1;
     float lineWidth = 1;
     float axisLineWidth = 3;
     float2 uv = float2(in.pos.xy / inputs.screenSize);
     uv.y = 1.0 - uv.y;
     uv = uv * 2 - 1;
+    uv *= scale;
     float3 backgroundColor = float3(1.0);
     float3 axesColor = float3(0.3);
     float3 gridColor = float3(0.5);
+    float3 sqrtColor = float3(1.0, 0.0, 0.0);
 
     float3 pixel = backgroundColor;
 
@@ -47,5 +55,15 @@ fragment float4 fragment_main(constant Inputs &inputs [[ buffer(InputIndex) ]],
     float verticalAxisWidth = axisLineWidth / inputs.screenSize.y;
     if(abs(uv.x)<horisontalAxisWidth) pixel = axesColor;
     if(abs(uv.y)<verticalAxisWidth) pixel = axesColor;
+
+    float y = sqrtFunction(uv.x);
+
+    float k = (sqrtFunction(uv.x + delta) - y) / delta;
+
+    float dy = uv.y - y;
+    float dx = dy / k;
+    if (abs(dx) < horisontalAxisWidth) pixel = sqrtColor;
+    if (abs(y - uv.y) < verticalAxisWidth) pixel = sqrtColor;
+
     return float4(pixel, 1.0);
 }
