@@ -9,8 +9,8 @@
 #import "../General.h"
 using namespace metal;
 
-#define delta 0.00001
-#define scale 10
+#define SCALE 10
+#define UNDEFINED_VALUE 10000
 
 struct VertexOut {
     float4 pos [[position]];
@@ -26,7 +26,8 @@ vertex VertexOut vertex_main(constant Vertex *vertices [[buffer(0)]],
 }
 
 float sqrt2Function(float x) {
-    return sqrt(x)*2;
+    float undefined = 1 - step(0, x);
+    return undefined * UNDEFINED_VALUE + (1 - undefined) * sqrt(x)*2;
 }
 
 float quadFunction(float x) {
@@ -42,9 +43,10 @@ float3 calcGraph(float (*func)(float),
                  const float2 uv,
                  const float3 color,
                  const float2 screenSize) {
+    const float delta = 0.00001;
     float3 resPixel = pixel;
 
-    const float graphLineWidth = 4 * scale;
+    const float graphLineWidth = 4 * SCALE;
 
     float y = func(uv.x);
 
@@ -55,43 +57,47 @@ float3 calcGraph(float (*func)(float),
 
     float horisontalWidth = graphLineWidth / screenSize.x;
     float verticalWidth = graphLineWidth / screenSize.y;
-    if (abs(dx) < horisontalWidth) resPixel = color;
-    if (abs(y - uv.y) < verticalWidth) resPixel = color;
+    float colored = 1 - min(step(horisontalWidth, abs(dx)),
+                            step(verticalWidth, abs(y - uv.y)));
+    resPixel = colored * color + (1 - colored) * resPixel;
 
     return resPixel;
 }
 
 fragment float4 fragment_main(constant Inputs &inputs [[ buffer(InputIndex) ]],
                               VertexOut in [[stage_in]]) {
-    const float lineWidth = 1 * scale;
-    const float axisLineWidth = 3 * scale;
+    const float lineWidth = 1 * SCALE;
+    const float axisLineWidth = 3 * SCALE;
 
     float2 uv = float2(in.pos.xy / inputs.screenSize);
     uv.y = 1.0 - uv.y;
     uv = uv * 2 - 1;
-    uv *= scale;
+    uv *= SCALE;
     float3 backgroundColor = float3(1.0);
     float3 axesColor = float3(0.3);
     float3 gridColor = float3(0.5);
 
     float3 pixel = backgroundColor;
 
-    const float breaksCount = 20;
-    float horisontalWidth = lineWidth / inputs.screenSize.x;
-    float verticalWidth = lineWidth / inputs.screenSize.y;
-    for(float i = -1.0 * scale; i<1.0 * scale; i += 0.5) {
-        if (abs(uv.x - i) < horisontalWidth) pixel = gridColor;
-        if (abs(uv.y - i) < verticalWidth) pixel = gridColor;
-    }
-
-    float horisontalAxisWidth = axisLineWidth / inputs.screenSize.x;
-    float verticalAxisWidth = axisLineWidth / inputs.screenSize.y;
-    if(abs(uv.x)<horisontalAxisWidth) pixel = axesColor;
-    if(abs(uv.y)<verticalAxisWidth) pixel = axesColor;
-
     pixel = calcGraph(&sqrt2Function, pixel, uv, float3(1.0, 0.0, 0.0), inputs.screenSize);
     pixel = calcGraph(&quadFunction, pixel, uv, float3(0.0, 1.0, 0.0), inputs.screenSize);
     pixel = calcGraph(&sin10Function, pixel, uv, float3(0.0, 0.0, 1.0), inputs.screenSize);
+
+    float horisontalWidth = lineWidth / inputs.screenSize.x;
+    float verticalWidth = lineWidth / inputs.screenSize.y;
+    float greedSize = 0.1 * SCALE;
+
+    float x = fabs(uv.x - greedSize * floor(uv.x / greedSize));
+    float y = fabs(uv.y - greedSize * floor(uv.y / greedSize));
+
+    if (x < horisontalWidth * 2) pixel = gridColor;
+    if (y < verticalWidth * 2) pixel = gridColor;
+
+    float horisontalAxisWidth = axisLineWidth / inputs.screenSize.x;
+    float verticalAxisWidth = axisLineWidth / inputs.screenSize.y;
+    float colored = 1 - min(step(horisontalAxisWidth, abs(uv.x)),
+                            step(verticalAxisWidth, abs(uv.y)));
+    pixel = colored * axesColor + (1 - colored) * pixel;
 
     return float4(pixel, 1.0);
 }
