@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var shaderText = "Enter shader"
+
     var body: some View {
         VStack {
             ShaderView()
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            TextEditor(text: $shaderText)
         }
         .padding()
     }

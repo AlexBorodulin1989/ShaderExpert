@@ -24,6 +24,8 @@ vertex VertexOut vertex_main(constant Vertex *vertices [[buffer(0)]],
 
 fragment float4 fragment_main(constant Inputs &inputs [[ buffer(InputIndex) ]],
                               VertexOut in [[stage_in]]) {
+    float lineWidth = 1;
+    float axisLineWidth = 3;
     float2 uv = float2(in.pos.xy / inputs.screenSize);
     uv.y = 1.0 - uv.y;
     float3 backgroundColor = float3(1.0);
@@ -33,12 +35,16 @@ fragment float4 fragment_main(constant Inputs &inputs [[ buffer(InputIndex) ]],
     float3 pixel = backgroundColor;
 
     const float tickWidth = 0.1;
+    float horisontalWidth = lineWidth / inputs.screenSize.x;
+    float verticalWidth = lineWidth / inputs.screenSize.y;
     for(float i = 0.0; i<1.0; i += tickWidth) {
-        if (abs(uv.x - i) < 0.002) pixel = gridColor;
-        if (abs(uv.y - i) < 0.002) pixel = gridColor;
+        if (abs(uv.x - i) < horisontalWidth) pixel = gridColor;
+        if (abs(uv.y - i) < verticalWidth) pixel = gridColor;
     }
 
-    if(abs(uv.x)<0.005) pixel = axesColor;
-    if(abs(uv.y)<0.005) pixel = axesColor;
+    float horisontalAxisWidth = axisLineWidth / inputs.screenSize.x;
+    float verticalAxisWidth = axisLineWidth / inputs.screenSize.y;
+    if(abs(uv.x)<horisontalAxisWidth) pixel = axesColor;
+    if(abs(uv.y)<verticalAxisWidth) pixel = axesColor;
     return float4(pixel, 1.0);
 }
