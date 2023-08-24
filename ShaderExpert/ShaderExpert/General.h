@@ -1,6 +1,6 @@
 //
 //  General.h
-//  Globus
+//  ShaderExpert
 //
 //  Created by Aleksandr Borodulin on 04.08.2023.
 //

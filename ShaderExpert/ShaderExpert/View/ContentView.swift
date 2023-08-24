@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var shaderText = "Enter shader"
+    @StateObject private var viewModel = ContentViewModel()
 
     var body: some View {
         VStack {
             ShaderView()
-            TextEditor(text: $shaderText)
+            TextEditor(text: $viewModel.shaderText)
         }
         .padding()
     }

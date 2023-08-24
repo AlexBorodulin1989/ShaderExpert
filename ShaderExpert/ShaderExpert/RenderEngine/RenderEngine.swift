@@ -1,6 +1,6 @@
 //
 //  RenderEngine.swift
-//  Globus
+//  ShaderExpert
 //
 //  Created by Aleksandr Borodulin on 11.06.2023.
 //

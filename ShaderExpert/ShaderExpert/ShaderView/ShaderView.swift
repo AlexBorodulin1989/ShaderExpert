@@ -1,6 +1,6 @@
 //
-//  GlobusView.swift
-//  Globus
+//  ShaderView.swift
+//  ShaderExpert
 //
 //  Created by Aleksandr Borodulin on 11.06.2023.
 //
