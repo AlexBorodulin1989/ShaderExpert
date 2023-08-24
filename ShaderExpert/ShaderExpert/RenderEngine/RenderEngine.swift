@@ -6,6 +6,7 @@
 //
 
 import MetalKit
+import Combine
 
 class RenderEngine: NSObject {
     private var device: MTLDevice
@@ -23,6 +24,8 @@ class RenderEngine: NSObject {
     private var depthState: MTLDepthStencilState!
 
     var inputs = Inputs()
+
+    private var subscriptions = Set<AnyCancellable>()
 
     init(mtkView: MTKView) {
         guard
@@ -53,9 +56,14 @@ class RenderEngine: NSObject {
 
         mtkView.device = device
 
-        self.library = device.makeDefaultLibrary()
-        let vertexFunction = library?.makeFunction(name: "vertex_main")
-        let fragmentFunction = library?.makeFunction(name: "fragment_main")
+        do {
+            self.library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.shaderText, options: nil)
+        } catch {
+            assert(false, error.localizedDescription)
+        }
+
+        let vertexFunction = library.makeFunction(name: "vertex_main")
+        let fragmentFunction = library.makeFunction(name: "fragment_main")
 
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.vertexFunction = vertexFunction
@@ -77,6 +85,32 @@ class RenderEngine: NSObject {
         mtkView.depthStencilPixelFormat = .depth32Float
 
         mtkView.delegate = self
+
+        NotificationCenter.default.publisher(for: Shader.updateShader)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                do {
+                    library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.shaderText, options: nil)
+                } catch {
+                    print(error.localizedDescription)
+                }
+
+                let vertexFunction = library.makeFunction(name: "vertex_main")
+                let fragmentFunction = library.makeFunction(name: "fragment_main")
+
+                let pipelineDescriptor = MTLRenderPipelineDescriptor()
+                pipelineDescriptor.vertexFunction = vertexFunction
+                pipelineDescriptor.fragmentFunction = fragmentFunction
+                pipelineDescriptor.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
+                pipelineDescriptor.vertexDescriptor = Rectangle.layout
+                pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
+                do {
+                    pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            }
+            .store(in: &subscriptions)
     }
 }
 

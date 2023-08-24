@@ -1,15 +1,47 @@
 //
-//  ContentViewModel.swift
+//  Shader.swift
 //  ShaderExpert
 //
 //  Created by Aleksandr Borodulin on 24.08.2023.
 //
 
 import Foundation
-import Combine
 
-final class ContentViewModel: ObservableObject {
-    @Published var shaderText = """
+class Shader {
+    static let updateShader = Notification.Name("updateShader")
+
+    static var vertexShaderText = """
+    #include <metal_stdlib>
+    using namespace metal;
+
+    typedef struct {
+        vector_float3 position;
+    } Vertex;
+
+    typedef enum {
+        InputIndex = 10
+    } ShaderIndices;
+
+    typedef struct {
+        vector_float2 screenSize;
+    } Inputs;
+
+    struct VertexOut {
+        float4 pos [[position]];
+    };
+
+    vertex VertexOut vertex_main(constant Vertex *vertices [[buffer(0)]],
+                                 uint id [[vertex_id]]) {
+        auto vert = vertices[id];
+        VertexOut result {
+            .pos = float4(vert.position, 1)
+        };
+        return result;
+    }
+    
+    """
+
+    static var shaderText = """
     #define SCALE 10
     #define UNDEFINED_VALUE 10000
 
@@ -90,18 +122,4 @@ final class ContentViewModel: ObservableObject {
         return float4(pixel, 1.0);
     }
     """
-
-    private var subscriptions = Set<AnyCancellable>()
-
-    init() {
-        $shaderText
-            .dropFirst()
-            .sink { shader in
-                Shader.shaderText = shader
-                NotificationCenter.default.post(name: Shader.updateShader,
-                                                object: nil,
-                                                userInfo: nil)
-            }
-            .store(in: &subscriptions)
-    }
 }

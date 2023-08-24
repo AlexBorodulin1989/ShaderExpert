@@ -18,6 +18,7 @@
 		9D5EA4332A93E0940010D280 /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EA4322A93E0940010D280 /* Rectangle.swift */; };
 		9DDF19292A967C8700CBA727 /* ShaderIndices+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */; };
 		9DFDF22E2A97E70F009692CD /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFDF22D2A97E70F009692CD /* ContentViewModel.swift */; };
+		9DFDF2302A97EA9B009692CD /* Shader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFDF22F2A97EA9B009692CD /* Shader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		9D5EA4342A93E11F0010D280 /* General.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = General.h; sourceTree = "<group>"; };
 		9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShaderIndices+Extensions.swift"; sourceTree = "<group>"; };
 		9DFDF22D2A97E70F009692CD /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		9DFDF22F2A97EA9B009692CD /* Shader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				9D5D83292A966FB600EFBB52 /* GeneralShader.metal */,
+				9DFDF22F2A97EA9B009692CD /* Shader.swift */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				9D5D832D2A9670DF00EFBB52 /* ShaderView.swift in Sources */,
 				9D5EA4302A93E00E0010D280 /* RenderEngine.swift in Sources */,
 				9D5EA4202A93DFB90010D280 /* ShaderExpertApp.swift in Sources */,
+				9DFDF2302A97EA9B009692CD /* Shader.swift in Sources */,
 				9D5D832A2A966FB600EFBB52 /* GeneralShader.metal in Sources */,
 				9DFDF22E2A97E70F009692CD /* ContentViewModel.swift in Sources */,
 				9D5EA4332A93E0940010D280 /* Rectangle.swift in Sources */,
