@@ -28,16 +28,17 @@ fragment float4 fragment_main(constant Inputs &inputs [[ buffer(InputIndex) ]],
     float axisLineWidth = 3;
     float2 uv = float2(in.pos.xy / inputs.screenSize);
     uv.y = 1.0 - uv.y;
+    uv = uv * 2 - 1;
     float3 backgroundColor = float3(1.0);
-    float3 axesColor = float3(0.0, 0.0, 1.0);
+    float3 axesColor = float3(0.3);
     float3 gridColor = float3(0.5);
 
     float3 pixel = backgroundColor;
 
-    const float tickWidth = 0.1;
+    const float breaksCount = 20;
     float horisontalWidth = lineWidth / inputs.screenSize.x;
     float verticalWidth = lineWidth / inputs.screenSize.y;
-    for(float i = 0.0; i<1.0; i += tickWidth) {
+    for(float i = -1.0; i<1.0; i += 2.0 / breaksCount) {
         if (abs(uv.x - i) < horisontalWidth) pixel = gridColor;
         if (abs(uv.y - i) < verticalWidth) pixel = gridColor;
     }
