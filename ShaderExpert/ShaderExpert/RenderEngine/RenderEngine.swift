@@ -57,7 +57,7 @@ class RenderEngine: NSObject {
         mtkView.device = device
 
         do {
-            self.library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.shaderText, options: nil)
+            self.library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.fragmentShaderText, options: nil)
         } catch {
             assert(false, error.localizedDescription)
         }
@@ -90,7 +90,7 @@ class RenderEngine: NSObject {
             .sink { [weak self] _ in
                 guard let self else { return }
                 do {
-                    library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.shaderText, options: nil)
+                    library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.fragmentShaderText, options: nil)
                 } catch {
                     print(error.localizedDescription)
                 }

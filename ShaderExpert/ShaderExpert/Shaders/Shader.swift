@@ -41,7 +41,7 @@ class Shader {
     
     """
 
-    static var shaderText = """
+    static var fragmentShaderText = """
     #define SCALE 10
     #define UNDEFINED_VALUE 10000
 
@@ -77,8 +77,8 @@ class Shader {
 
         float horisontalWidth = graphLineWidth / screenSize.x;
         float verticalWidth = graphLineWidth / screenSize.y;
-        float colored = 1 - min(step(horisontalWidth, abs(dx)),
-                                step(verticalWidth, abs(y - uv.y)));
+                float colored = 1 - min(step(horisontalWidth, abs(dx)),
+                                        step(verticalWidth, abs(y - uv.y)));
         resPixel = colored * color + (1 - colored) * resPixel;
 
         return resPixel;
@@ -107,6 +107,7 @@ class Shader {
         float verticalWidth = lineWidth / inputs.screenSize.y;
         float greedSize = 0.1 * SCALE;
 
+        // Greed
         float x = fabs(uv.x - greedSize * floor(uv.x / greedSize));
         float y = fabs(uv.y - greedSize * floor(uv.y / greedSize));
 
