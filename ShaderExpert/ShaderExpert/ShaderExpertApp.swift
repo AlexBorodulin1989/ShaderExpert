@@ -11,7 +11,11 @@ import SwiftUI
 struct ShaderExpertApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+#if os(macOS)
+            ContentView_Mac()
+#elseif os(iOS)
+            ContentView_iOS()
+#endif
         }
     }
 }

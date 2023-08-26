@@ -12,16 +12,14 @@ final class ContentViewModel: ObservableObject {
     @Published var shaderText = Shader.fragmentShaderText
 
     private var subscriptions = Set<AnyCancellable>()
+}
 
-    init() {
-        $shaderText
-            .dropFirst()
-            .sink { shader in
-                Shader.fragmentShaderText = shader
-                NotificationCenter.default.post(name: .updateShader,
-                                                object: nil,
-                                                userInfo: nil)
-            }
-            .store(in: &subscriptions)
+// MARK: - Actions
+extension ContentViewModel {
+    func update() {
+        Shader.fragmentShaderText = shaderText
+        NotificationCenter.default.post(name: .updateShader,
+                                        object: nil,
+                                        userInfo: nil)
     }
 }
