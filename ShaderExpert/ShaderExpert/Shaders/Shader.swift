@@ -114,10 +114,14 @@ class Shader {
         if (x < horisontalWidth * 2) pixel = gridColor;
         if (y < verticalWidth * 2) pixel = gridColor;
 
+        float colored = 1 - min(step(horisontalWidth * 2, x),
+                                step(verticalWidth * 2, abs(y)));
+        pixel = colored * axesColor + (1 - colored) * pixel;
+
         float horisontalAxisWidth = axisLineWidth / inputs.screenSize.x;
         float verticalAxisWidth = axisLineWidth / inputs.screenSize.y;
-        float colored = 1 - min(step(horisontalAxisWidth, abs(uv.x)),
-                                step(verticalAxisWidth, abs(uv.y)));
+        colored = 1 - min(step(horisontalAxisWidth, abs(uv.x)),
+                            step(verticalAxisWidth, abs(uv.y)));
         pixel = colored * axesColor + (1 - colored) * pixel;
 
         return float4(pixel, 1.0);
