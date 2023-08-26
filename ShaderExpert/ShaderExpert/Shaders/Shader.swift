@@ -8,8 +8,6 @@
 import Foundation
 
 class Shader {
-    static let updateShader = Notification.Name("updateShader")
-
     static var vertexShaderText = """
     #include <metal_stdlib>
     using namespace metal;
@@ -110,9 +108,6 @@ class Shader {
         // Greed
         float x = fabs(uv.x - greedSize * floor(uv.x / greedSize));
         float y = fabs(uv.y - greedSize * floor(uv.y / greedSize));
-
-        if (x < horisontalWidth * 2) pixel = gridColor;
-        if (y < verticalWidth * 2) pixel = gridColor;
 
         float colored = 1 - min(step(horisontalWidth * 2, x),
                                 step(verticalWidth * 2, abs(y)));

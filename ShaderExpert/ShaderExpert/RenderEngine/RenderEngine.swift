@@ -27,6 +27,8 @@ class RenderEngine: NSObject {
 
     private var subscriptions = Set<AnyCancellable>()
 
+    private let pixelFormat: MTLPixelFormat
+
     init(mtkView: MTKView) {
         guard
             let device = MTLCreateSystemDefaultDevice()
@@ -37,6 +39,8 @@ class RenderEngine: NSObject {
         self.device = device
 
         mesh = Rectangle(device: device)
+
+        pixelFormat = mtkView.colorPixelFormat
 
         super.init()
 
@@ -56,26 +60,7 @@ class RenderEngine: NSObject {
 
         mtkView.device = device
 
-        do {
-            self.library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.fragmentShaderText, options: nil)
-        } catch {
-            assert(false, error.localizedDescription)
-        }
-
-        let vertexFunction = library.makeFunction(name: "vertex_main")
-        let fragmentFunction = library.makeFunction(name: "fragment_main")
-
-        let pipelineDescriptor = MTLRenderPipelineDescriptor()
-        pipelineDescriptor.vertexFunction = vertexFunction
-        pipelineDescriptor.fragmentFunction = fragmentFunction
-        pipelineDescriptor.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
-        pipelineDescriptor.vertexDescriptor = Rectangle.layout
-        pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
-        do {
-            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
-        } catch let error {
-            fatalError(error.localizedDescription)
-        }
+        createPipeline()
 
         mtkView.clearColor = MTLClearColor(red: 0.5,
                                              green: 0.5,
@@ -86,31 +71,35 @@ class RenderEngine: NSObject {
 
         mtkView.delegate = self
 
-        NotificationCenter.default.publisher(for: Shader.updateShader)
+        NotificationCenter.default.publisher(for: .updateShader)
             .sink { [weak self] _ in
                 guard let self else { return }
-                do {
-                    library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.fragmentShaderText, options: nil)
-                } catch {
-                    print(error.localizedDescription)
-                }
-
-                let vertexFunction = library.makeFunction(name: "vertex_main")
-                let fragmentFunction = library.makeFunction(name: "fragment_main")
-
-                let pipelineDescriptor = MTLRenderPipelineDescriptor()
-                pipelineDescriptor.vertexFunction = vertexFunction
-                pipelineDescriptor.fragmentFunction = fragmentFunction
-                pipelineDescriptor.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
-                pipelineDescriptor.vertexDescriptor = Rectangle.layout
-                pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
-                do {
-                    pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
-                } catch let error {
-                    print(error.localizedDescription)
-                }
+                createPipeline()
             }
             .store(in: &subscriptions)
+    }
+
+    func createPipeline() {
+        do {
+            library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.fragmentShaderText, options: nil)
+        } catch {
+            print(error.localizedDescription)
+        }
+
+        let vertexFunction = library.makeFunction(name: "vertex_main")
+        let fragmentFunction = library.makeFunction(name: "fragment_main")
+
+        let pipelineDescriptor = MTLRenderPipelineDescriptor()
+        pipelineDescriptor.vertexFunction = vertexFunction
+        pipelineDescriptor.fragmentFunction = fragmentFunction
+        pipelineDescriptor.colorAttachments[0].pixelFormat = pixelFormat
+        pipelineDescriptor.vertexDescriptor = Rectangle.layout
+        pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
+        do {
+            pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
 

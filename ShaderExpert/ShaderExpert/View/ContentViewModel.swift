@@ -18,7 +18,7 @@ final class ContentViewModel: ObservableObject {
             .dropFirst()
             .sink { shader in
                 Shader.fragmentShaderText = shader
-                NotificationCenter.default.post(name: Shader.updateShader,
+                NotificationCenter.default.post(name: .updateShader,
                                                 object: nil,
                                                 userInfo: nil)
             }
