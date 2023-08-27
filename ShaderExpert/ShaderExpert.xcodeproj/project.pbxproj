@@ -17,6 +17,7 @@
 		9D5EA4332A93E0940010D280 /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EA4322A93E0940010D280 /* Rectangle.swift */; };
 		9D78A5B02A9A26C3007CE23C /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A5AF2A9A26C3007CE23C /* Notification+Extensions.swift */; };
 		9D78A5B22A9A2CF2007CE23C /* ContentView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A5B12A9A2CF2007CE23C /* ContentView_iOS.swift */; };
+		9D78A5B42A9BA4AB007CE23C /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A5B32A9BA4AB007CE23C /* FileManager+Extensions.swift */; };
 		9DDF19292A967C8700CBA727 /* ShaderIndices+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */; };
 		9DFDF22E2A97E70F009692CD /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFDF22D2A97E70F009692CD /* ContentViewModel.swift */; };
 		9DFDF2302A97EA9B009692CD /* Shader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFDF22F2A97EA9B009692CD /* Shader.swift */; };
@@ -36,6 +37,7 @@
 		9D5EA4342A93E11F0010D280 /* General.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = General.h; sourceTree = "<group>"; };
 		9D78A5AF2A9A26C3007CE23C /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		9D78A5B12A9A2CF2007CE23C /* ContentView_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_iOS.swift; sourceTree = "<group>"; };
+		9D78A5B32A9BA4AB007CE23C /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
 		9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShaderIndices+Extensions.swift"; sourceTree = "<group>"; };
 		9DFDF22D2A97E70F009692CD /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		9DFDF22F2A97EA9B009692CD /* Shader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shader.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 			children = (
 				9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */,
 				9D78A5AF2A9A26C3007CE23C /* Notification+Extensions.swift */,
+				9D78A5B32A9BA4AB007CE23C /* FileManager+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				9D5D832D2A9670DF00EFBB52 /* ShaderView.swift in Sources */,
 				9D5EA4302A93E00E0010D280 /* RenderEngine.swift in Sources */,
 				9D5EA4202A93DFB90010D280 /* ShaderExpertApp.swift in Sources */,
+				9D78A5B42A9BA4AB007CE23C /* FileManager+Extensions.swift in Sources */,
 				9DFDF2302A97EA9B009692CD /* Shader.swift in Sources */,
 				9DFDF22E2A97E70F009692CD /* ContentViewModel.swift in Sources */,
 				9D78A5B02A9A26C3007CE23C /* Notification+Extensions.swift in Sources */,
