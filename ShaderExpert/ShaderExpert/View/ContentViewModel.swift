@@ -8,6 +8,11 @@
 import Foundation
 import Combine
 
+struct FileItem: Identifiable {
+    let id: String = UUID().uuidString
+    let name: String
+}
+
 final class ContentViewModel: ObservableObject {
     @Published var shaderText = Shader.fragmentShaderText
     @Published var fileName = ""
@@ -15,9 +20,25 @@ final class ContentViewModel: ObservableObject {
     @Published var showingAlert = false
     @Published var alertText = ""
 
+    @Published var filesList = [FileItem]()
+
     private var subscriptions = Set<AnyCancellable>()
 
     private let savesDirectory = "shader_saves/"
+
+    private let fileManager = FileManager.default
+
+    init() {
+        do {
+            let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory)
+
+            let files = (try fileManager.contentsOfDirectory(atPath: url.path())).map { $0.replacingOccurrences(of: ".txt", with: "") }
+
+            filesList = files.map { FileItem(name: $0) }
+        } catch {
+            assert(false, "Failed to read directory")
+        }
+    }
 }
 
 // MARK: - Actions
@@ -48,6 +69,19 @@ extension ContentViewModel {
 
             showingAlert = true
             alertText = "Saved to: \(url.absoluteString)"
+        } catch {
+            showingAlert = true
+            alertText = error.localizedDescription
+        }
+    }
+
+    func openFileName(_ name: String) {
+        let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory + "/" + name + ".txt")
+
+        do {
+            let data = try Data(contentsOf: url);
+            shaderText = String(decoding: data, as: UTF8.self)
+            fileName = name
         } catch {
             showingAlert = true
             alertText = error.localizedDescription

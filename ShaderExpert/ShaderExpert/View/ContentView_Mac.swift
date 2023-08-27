@@ -11,55 +11,73 @@ struct ContentView_Mac: View {
     @StateObject private var viewModel = ContentViewModel()
 
     var body: some View {
-        VStack {
-            ShaderView()
-            HStack {
-                Button {
-                    viewModel.update()
-                } label: {
-                    Image(systemName: "arrow.clockwise.circle.fill")
-                        .font(.system(size: 30))
-                }
-                .buttonStyle(.borderless)
-
-                TextField("File name", text: $viewModel.fileName)
-
-                Button {
-                    if viewModel.fileName.isEmpty {
-                        viewModel.showingAlert = true
-                        viewModel.alertText = "File name cannot be empty"
-                        return
+        HStack {
+            VStack {
+                ShaderView()
+                HStack {
+                    Button {
+                        viewModel.update()
+                    } label: {
+                        Image(systemName: "arrow.clockwise.circle.fill")
+                            .font(.system(size: 30))
                     }
+                    .buttonStyle(.borderless)
 
-                    do {
-                        let range = NSRange(location: 0,
-                                            length: viewModel.fileName.utf16.count)
+                    TextField("File name", text: $viewModel.fileName)
 
-                        let digits = /[a-zA-Z]+/
+                    Button {
+                        if viewModel.fileName.isEmpty {
+                            viewModel.showingAlert = true
+                            viewModel.alertText = "File name cannot be empty"
+                            return
+                        }
 
-                        if try digits.wholeMatch(in: viewModel.fileName) != nil {
-                            viewModel.saveFile()
-                        } else {
+                        do {
+                            let range = NSRange(location: 0,
+                                                length: viewModel.fileName.utf16.count)
+
+                            let digits = /[a-zA-Z]+/
+
+                            if try digits.wholeMatch(in: viewModel.fileName) != nil {
+                                viewModel.saveFile()
+                            } else {
+                                viewModel.showingAlert = true
+                                viewModel.alertText = "File name can contains chars from a to z"
+                            }
+                        } catch {
                             viewModel.showingAlert = true
                             viewModel.alertText = "File name can contains chars from a to z"
                         }
-                    } catch {
-                        viewModel.showingAlert = true
-                        viewModel.alertText = "File name can contains chars from a to z"
+
+
+                    } label: {
+                        Image(systemName: "opticaldisc.fill")
+                            .font(.system(size: 30))
                     }
+                    .buttonStyle(.borderless)
 
-
-                } label: {
-                    Image(systemName: "opticaldisc.fill")
-                        .font(.system(size: 30))
+                    Spacer()
                 }
-                .buttonStyle(.borderless)
-
-                Spacer()
+                TextEditor(text: $viewModel.shaderText)
             }
-            TextEditor(text: $viewModel.shaderText)
+            .padding()
+
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(viewModel.filesList) { item in
+                        Button {
+                            viewModel.openFileName(item.name)
+                        } label: {
+                            Text(item.name)
+                        }
+                        .buttonStyle(.borderless)
+                        .frame(height: 45)
+                    }
+                }
+            }
+            .padding(.leading, 4)
+            .padding(.trailing, 16)
         }
-        .padding()
         .alert(viewModel.alertText, isPresented: $viewModel.showingAlert) {
             Button("OK", role: .cancel) { }
         }
