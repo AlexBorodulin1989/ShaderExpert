@@ -75,9 +75,9 @@ class Shader {
 
         float horisontalWidth = graphLineWidth / screenSize.x;
         float verticalWidth = graphLineWidth / screenSize.y;
-                float colored = 1 - min(step(horisontalWidth, abs(dx)),
+                float colored = min(step(horisontalWidth, abs(dx)),
                                         step(verticalWidth, abs(y - uv.y)));
-        resPixel = colored * color + (1 - colored) * resPixel;
+        resPixel = mix(color, resPixel, colored);
 
         return resPixel;
     }
@@ -109,15 +109,15 @@ class Shader {
         float x = fabs(uv.x - greedSize * floor(uv.x / greedSize));
         float y = fabs(uv.y - greedSize * floor(uv.y / greedSize));
 
-        float colored = 1 - min(step(horisontalWidth * 2, x),
+        float colored = min(step(horisontalWidth * 2, x),
                                 step(verticalWidth * 2, abs(y)));
-        pixel = colored * axesColor + (1 - colored) * pixel;
+        pixel = mix(axesColor, pixel, colored);
 
         float horisontalAxisWidth = axisLineWidth / inputs.screenSize.x;
         float verticalAxisWidth = axisLineWidth / inputs.screenSize.y;
-        colored = 1 - min(step(horisontalAxisWidth, abs(uv.x)),
+        colored = min(step(horisontalAxisWidth, abs(uv.x)),
                             step(verticalAxisWidth, abs(uv.y)));
-        pixel = colored * axesColor + (1 - colored) * pixel;
+        pixel = mix(axesColor, pixel, colored);
 
         return float4(pixel, 1.0);
     }
