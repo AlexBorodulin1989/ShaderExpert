@@ -83,7 +83,9 @@ class RenderEngine: NSObject {
         do {
             library = try device.makeLibrary(source: Shader.vertexShaderText + Shader.fragmentShaderText, options: nil)
         } catch {
-            print(error.localizedDescription)
+            NotificationCenter.default.post(name: .error,
+                                            object: nil,
+                                            userInfo: ["error" : error.localizedDescription])
         }
 
         let vertexFunction = library.makeFunction(name: "vertex_main")
@@ -98,7 +100,9 @@ class RenderEngine: NSObject {
         do {
             pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
         } catch let error {
-            print(error.localizedDescription)
+            NotificationCenter.default.post(name: .error,
+                                            object: nil,
+                                            userInfo: ["error" : error.localizedDescription])
         }
     }
 }

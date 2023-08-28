@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let updateShader = Notification.Name("updateShader")
+    static let error = Notification.Name("error")
 }

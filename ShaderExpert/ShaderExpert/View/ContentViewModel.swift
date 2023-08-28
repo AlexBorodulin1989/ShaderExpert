@@ -29,6 +29,21 @@ final class ContentViewModel: ObservableObject {
     private let fileManager = FileManager.default
 
     init() {
+        updateFilesList()
+
+        NotificationCenter.default.publisher(for: .error)
+            .sink { [weak self] object in
+                guard let self else { return }
+                showingAlert = true
+                alertText = object.userInfo?["error"] as? String ?? ""
+            }
+            .store(in: &subscriptions)
+    }
+}
+
+// MARK: - Update
+extension ContentViewModel {
+    func updateFilesList() {
         do {
             let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory)
 
@@ -69,6 +84,8 @@ extension ContentViewModel {
 
             showingAlert = true
             alertText = "Saved to: \(url.absoluteString)"
+
+            updateFilesList()
         } catch {
             showingAlert = true
             alertText = error.localizedDescription
