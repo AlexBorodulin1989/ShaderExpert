@@ -75,6 +75,7 @@ struct ContentView_Mac: View {
                     }
                 }
             }
+            .frame(width: 150)
             .padding(.leading, 4)
             .padding(.trailing, 16)
         }
