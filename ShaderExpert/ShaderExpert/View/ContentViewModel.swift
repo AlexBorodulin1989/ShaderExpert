@@ -92,6 +92,19 @@ extension ContentViewModel {
         }
     }
 
+    func deleteFile(_ name: String) {
+        let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory + "/" + name + ".txt")
+
+        do {
+            try fileManager.removeItem(at: url)
+            shaderText = ""
+            updateFilesList()
+        } catch {
+            showingAlert = true
+            alertText = error.localizedDescription
+        }
+    }
+
     func openFileName(_ name: String) {
         let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory + "/" + name + ".txt")
 

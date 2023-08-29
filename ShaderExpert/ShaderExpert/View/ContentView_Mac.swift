@@ -14,50 +14,7 @@ struct ContentView_Mac: View {
         HStack {
             VStack {
                 ShaderView()
-                HStack {
-                    Button {
-                        viewModel.update()
-                    } label: {
-                        Image(systemName: "arrow.clockwise.circle.fill")
-                            .font(.system(size: 30))
-                    }
-                    .buttonStyle(.borderless)
-
-                    TextField("File name", text: $viewModel.fileName)
-
-                    Button {
-                        if viewModel.fileName.isEmpty {
-                            viewModel.showingAlert = true
-                            viewModel.alertText = "File name cannot be empty"
-                            return
-                        }
-
-                        do {
-                            let range = NSRange(location: 0,
-                                                length: viewModel.fileName.utf16.count)
-
-                            let digits = /[a-zA-Z]+/
-
-                            if try digits.wholeMatch(in: viewModel.fileName) != nil {
-                                viewModel.saveFile()
-                            } else {
-                                viewModel.showingAlert = true
-                                viewModel.alertText = "File name can contains chars from a to z"
-                            }
-                        } catch {
-                            viewModel.showingAlert = true
-                            viewModel.alertText = "File name can contains chars from a to z"
-                        }
-
-
-                    } label: {
-                        Image(systemName: "opticaldisc.fill")
-                            .font(.system(size: 30))
-                    }
-                    .buttonStyle(.borderless)
-
-                    Spacer()
-                }
+                ToolView_Mac(viewModel: viewModel)
                 TextEditor(text: $viewModel.shaderText)
             }
             .padding()
@@ -81,6 +38,80 @@ struct ContentView_Mac: View {
         }
         .alert(viewModel.alertText, isPresented: $viewModel.showingAlert) {
             Button("OK", role: .cancel) { }
+        }
+    }
+}
+
+struct ToolView_Mac: View {
+    @ObservedObject var viewModel: ContentViewModel
+
+    @State private var showingDeleteAlert = false
+
+    var body: some View {
+        HStack {
+            Button {
+                viewModel.update()
+            } label: {
+                Image(systemName: "arrow.clockwise.circle.fill")
+                    .font(.system(size: 30))
+            }
+            .buttonStyle(.borderless)
+
+            TextField("File name", text: $viewModel.fileName)
+
+            Button {
+                if viewModel.fileName.isEmpty {
+                    viewModel.showingAlert = true
+                    viewModel.alertText = "File name cannot be empty"
+                    return
+                }
+
+                do {
+                    let chars = /[a-zA-Z0-9._-]+/
+
+                    if try chars.wholeMatch(in: viewModel.fileName) != nil {
+                        viewModel.saveFile()
+                    } else {
+                        viewModel.showingAlert = true
+                        viewModel.alertText = "File name can contains chars from a to z, numbers, dot, _, -"
+                    }
+                } catch {
+                    viewModel.showingAlert = true
+                    viewModel.alertText = "File name can contains chars from a to z, numbers, dot, _, -"
+                }
+
+
+            } label: {
+                Image(systemName: "opticaldisc.fill")
+                    .font(.system(size: 30))
+            }
+            .buttonStyle(.borderless)
+
+            Button {
+                if viewModel.fileName.isEmpty {
+                    viewModel.showingAlert = true
+                    viewModel.alertText = "Cannot delete default shader"
+                } else {
+                    showingDeleteAlert = true
+                }
+            } label: {
+                Image(systemName: "trash.fill")
+                    .font(.system(size: 30))
+            }
+            .buttonStyle(.borderless)
+
+
+            Spacer()
+        }
+        .alert(isPresented:$showingDeleteAlert) {
+            Alert(
+                title: Text("Are you sure you want to delete shader?"),
+                message: Text("There is no undo"),
+                primaryButton: .destructive(Text("Delete")) {
+                    viewModel.deleteFile(viewModel.fileName)
+                },
+                secondaryButton: .cancel()
+            )
         }
     }
 }
