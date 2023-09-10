@@ -15,9 +15,13 @@
 		9D5EA4282A93DFBA0010D280 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D5EA4272A93DFBA0010D280 /* Preview Assets.xcassets */; };
 		9D5EA4302A93E00E0010D280 /* RenderEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EA42F2A93E00E0010D280 /* RenderEngine.swift */; };
 		9D5EA4332A93E0940010D280 /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EA4322A93E0940010D280 /* Rectangle.swift */; };
+		9D764BE42AADE48F007B5B4E /* GoogleLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D764BE32AADE48F007B5B4E /* GoogleLoginView.swift */; };
 		9D78A5B02A9A26C3007CE23C /* Notification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A5AF2A9A26C3007CE23C /* Notification+Extensions.swift */; };
 		9D78A5B22A9A2CF2007CE23C /* ContentView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A5B12A9A2CF2007CE23C /* ContentView_iOS.swift */; };
 		9D78A5B42A9BA4AB007CE23C /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A5B32A9BA4AB007CE23C /* FileManager+Extensions.swift */; };
+		9DA7E1432AACF84000A58208 /* GoogleAPIClientForREST_Drive in Frameworks */ = {isa = PBXBuildFile; productRef = 9DA7E1422AACF84000A58208 /* GoogleAPIClientForREST_Drive */; };
+		9DA7E1462AACF8E900A58208 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 9DA7E1452AACF8E900A58208 /* GoogleSignIn */; };
+		9DA7E1482AACF8E900A58208 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9DA7E1472AACF8E900A58208 /* GoogleSignInSwift */; };
 		9DDF19292A967C8700CBA727 /* ShaderIndices+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */; };
 		9DFDF22E2A97E70F009692CD /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFDF22D2A97E70F009692CD /* ContentViewModel.swift */; };
 		9DFDF2302A97EA9B009692CD /* Shader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFDF22F2A97EA9B009692CD /* Shader.swift */; };
@@ -35,9 +39,11 @@
 		9D5EA42F2A93E00E0010D280 /* RenderEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenderEngine.swift; sourceTree = "<group>"; };
 		9D5EA4322A93E0940010D280 /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
 		9D5EA4342A93E11F0010D280 /* General.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = General.h; sourceTree = "<group>"; };
+		9D764BE32AADE48F007B5B4E /* GoogleLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginView.swift; sourceTree = "<group>"; };
 		9D78A5AF2A9A26C3007CE23C /* Notification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extensions.swift"; sourceTree = "<group>"; };
 		9D78A5B12A9A2CF2007CE23C /* ContentView_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_iOS.swift; sourceTree = "<group>"; };
 		9D78A5B32A9BA4AB007CE23C /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
+		9DA7E1492AACF94100A58208 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShaderIndices+Extensions.swift"; sourceTree = "<group>"; };
 		9DFDF22D2A97E70F009692CD /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		9DFDF22F2A97EA9B009692CD /* Shader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shader.swift; sourceTree = "<group>"; };
@@ -48,6 +54,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DA7E1482AACF8E900A58208 /* GoogleSignInSwift in Frameworks */,
+				9DA7E1432AACF84000A58208 /* GoogleAPIClientForREST_Drive in Frameworks */,
+				9DA7E1462AACF8E900A58208 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +116,9 @@
 		9D5EA41E2A93DFB90010D280 /* ShaderExpert */ = {
 			isa = PBXGroup;
 			children = (
+				9DA7E1492AACF94100A58208 /* Info.plist */,
 				9D5EA4342A93E11F0010D280 /* General.h */,
+				9D764BE22AADE45F007B5B4E /* GoogleDisk */,
 				9DFDF22B2A97E6C2009692CD /* View */,
 				9D5D83252A966D7300EFBB52 /* Math */,
 				9D5EA4312A93E0620010D280 /* Rectangle */,
@@ -147,6 +158,14 @@
 			path = Rectangle;
 			sourceTree = "<group>";
 		};
+		9D764BE22AADE45F007B5B4E /* GoogleDisk */ = {
+			isa = PBXGroup;
+			children = (
+				9D764BE32AADE48F007B5B4E /* GoogleLoginView.swift */,
+			);
+			path = GoogleDisk;
+			sourceTree = "<group>";
+		};
 		9DFDF22B2A97E6C2009692CD /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +192,11 @@
 			dependencies = (
 			);
 			name = ShaderExpert;
+			packageProductDependencies = (
+				9DA7E1422AACF84000A58208 /* GoogleAPIClientForREST_Drive */,
+				9DA7E1452AACF8E900A58208 /* GoogleSignIn */,
+				9DA7E1472AACF8E900A58208 /* GoogleSignInSwift */,
+			);
 			productName = ShaderExpert;
 			productReference = 9D5EA41C2A93DFB90010D280 /* ShaderExpert.app */;
 			productType = "com.apple.product-type.application";
@@ -201,6 +225,10 @@
 				Base,
 			);
 			mainGroup = 9D5EA4132A93DFB90010D280;
+			packageReferences = (
+				9DA7E1412AACF84000A58208 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */,
+				9DA7E1442AACF8E900A58208 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			productRefGroup = 9D5EA41D2A93DFB90010D280 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -236,6 +264,7 @@
 				9DFDF2302A97EA9B009692CD /* Shader.swift in Sources */,
 				9DFDF22E2A97E70F009692CD /* ContentViewModel.swift in Sources */,
 				9D78A5B02A9A26C3007CE23C /* Notification+Extensions.swift in Sources */,
+				9D764BE42AADE48F007B5B4E /* GoogleLoginView.swift in Sources */,
 				9D5EA4332A93E0940010D280 /* Rectangle.swift in Sources */,
 				9D5D83272A966D7300EFBB52 /* MathLibrary.swift in Sources */,
 				9DDF19292A967C8700CBA727 /* ShaderIndices+Extensions.swift in Sources */,
@@ -367,6 +396,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShaderExpert/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -406,6 +436,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShaderExpert/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -454,6 +485,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9DA7E1412AACF84000A58208 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/google-api-objectivec-client-for-rest";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		9DA7E1442AACF8E900A58208 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9DA7E1422AACF84000A58208 /* GoogleAPIClientForREST_Drive */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9DA7E1412AACF84000A58208 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */;
+			productName = GoogleAPIClientForREST_Drive;
+		};
+		9DA7E1452AACF8E900A58208 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9DA7E1442AACF8E900A58208 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		9DA7E1472AACF8E900A58208 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9DA7E1442AACF8E900A58208 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9D5EA4142A93DFB90010D280 /* Project object */;
 }

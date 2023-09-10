@@ -23,8 +23,7 @@ struct ShaderView: ViewRepresentable {
     func makeNSView(context: Context) -> some NSView {
         makeView()
     }
-    func updateNSView(_ uiView: NSViewType, context: Context) {
-    }
+    func updateNSView(_ uiView: NSViewType, context: Context) {}
 #elseif os(iOS)
     func makeUIView(context: Context) -> MTKView {
         makeView() as! MTKView

@@ -10,34 +10,43 @@ import SwiftUI
 struct ContentView_Mac: View {
     @StateObject private var viewModel = ContentViewModel()
 
-    var body: some View {
-        HStack {
-            VStack {
-                ShaderView()
-                ToolView_Mac(viewModel: viewModel)
-                TextEditor(text: $viewModel.shaderText)
-            }
-            .padding()
+    @State private var showCloudeDisk = false
 
-            ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(viewModel.filesList) { item in
-                        Button {
-                            viewModel.openFileName(item.name)
-                        } label: {
-                            Text(item.name)
+    var body: some View {
+        ZStack {
+            HStack {
+                VStack {
+                    ShaderView()
+                    ToolView_Mac(viewModel: viewModel,
+                                 showCloudeDisk: $showCloudeDisk)
+                    TextEditor(text: $viewModel.shaderText)
+                }
+                .padding()
+
+                ScrollView {
+                    VStack(spacing: 0) {
+                        ForEach(viewModel.filesList) { item in
+                            Button {
+                                viewModel.openFileName(item.name)
+                            } label: {
+                                Text(item.name)
+                            }
+                            .buttonStyle(.borderless)
+                            .frame(height: 45)
                         }
-                        .buttonStyle(.borderless)
-                        .frame(height: 45)
                     }
                 }
+                .frame(width: 150)
+                .padding(.leading, 4)
+                .padding(.trailing, 16)
             }
-            .frame(width: 150)
-            .padding(.leading, 4)
-            .padding(.trailing, 16)
-        }
-        .alert(viewModel.alertText, isPresented: $viewModel.showingAlert) {
-            Button("OK", role: .cancel) { }
+            .alert(viewModel.alertText, isPresented: $viewModel.showingAlert) {
+                Button("OK", role: .cancel) { }
+            }
+
+            if showCloudeDisk {
+                GoogleLoginView()
+            }
         }
     }
 }
@@ -46,6 +55,8 @@ struct ToolView_Mac: View {
     @ObservedObject var viewModel: ContentViewModel
 
     @State private var showingDeleteAlert = false
+
+    @Binding var showCloudeDisk: Bool
 
     var body: some View {
         HStack {
@@ -96,6 +107,14 @@ struct ToolView_Mac: View {
                 }
             } label: {
                 Image(systemName: "trash.fill")
+                    .font(.system(size: 30))
+            }
+            .buttonStyle(.borderless)
+
+            Button {
+                showCloudeDisk = true
+            } label: {
+                Image(systemName: "square.and.arrow.down")
                     .font(.system(size: 30))
             }
             .buttonStyle(.borderless)

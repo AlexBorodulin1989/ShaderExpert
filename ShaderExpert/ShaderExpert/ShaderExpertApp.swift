@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 @main
 struct ShaderExpertApp: App {
+
     var body: some Scene {
         WindowGroup {
 #if os(macOS)
