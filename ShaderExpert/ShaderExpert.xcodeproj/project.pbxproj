@@ -22,6 +22,8 @@
 		9DA7E1432AACF84000A58208 /* GoogleAPIClientForREST_Drive in Frameworks */ = {isa = PBXBuildFile; productRef = 9DA7E1422AACF84000A58208 /* GoogleAPIClientForREST_Drive */; };
 		9DA7E1462AACF8E900A58208 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 9DA7E1452AACF8E900A58208 /* GoogleSignIn */; };
 		9DA7E1482AACF8E900A58208 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9DA7E1472AACF8E900A58208 /* GoogleSignInSwift */; };
+		9DB40B452AB0F021009F35A4 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB40B442AB0F021009F35A4 /* ShareView.swift */; };
+		9DB40B472AB0F05C009F35A4 /* ShareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB40B462AB0F05C009F35A4 /* ShareViewModel.swift */; };
 		9DDF19292A967C8700CBA727 /* ShaderIndices+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */; };
 		9DFDF22E2A97E70F009692CD /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFDF22D2A97E70F009692CD /* ContentViewModel.swift */; };
 		9DFDF2302A97EA9B009692CD /* Shader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFDF22F2A97EA9B009692CD /* Shader.swift */; };
@@ -44,6 +46,8 @@
 		9D78A5B12A9A2CF2007CE23C /* ContentView_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_iOS.swift; sourceTree = "<group>"; };
 		9D78A5B32A9BA4AB007CE23C /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
 		9DA7E1492AACF94100A58208 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9DB40B442AB0F021009F35A4 /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		9DB40B462AB0F05C009F35A4 /* ShareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewModel.swift; sourceTree = "<group>"; };
 		9DDF19282A967C8700CBA727 /* ShaderIndices+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShaderIndices+Extensions.swift"; sourceTree = "<group>"; };
 		9DFDF22D2A97E70F009692CD /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		9DFDF22F2A97EA9B009692CD /* Shader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shader.swift; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 			isa = PBXGroup;
 			children = (
 				9D764BE32AADE48F007B5B4E /* GoogleLoginView.swift */,
+				9DB40B442AB0F021009F35A4 /* ShareView.swift */,
+				9DB40B462AB0F05C009F35A4 /* ShareViewModel.swift */,
 			);
 			path = GoogleDisk;
 			sourceTree = "<group>";
@@ -263,6 +269,8 @@
 				9D78A5B42A9BA4AB007CE23C /* FileManager+Extensions.swift in Sources */,
 				9DFDF2302A97EA9B009692CD /* Shader.swift in Sources */,
 				9DFDF22E2A97E70F009692CD /* ContentViewModel.swift in Sources */,
+				9DB40B472AB0F05C009F35A4 /* ShareViewModel.swift in Sources */,
+				9DB40B452AB0F021009F35A4 /* ShareView.swift in Sources */,
 				9D78A5B02A9A26C3007CE23C /* Notification+Extensions.swift in Sources */,
 				9D764BE42AADE48F007B5B4E /* GoogleLoginView.swift in Sources */,
 				9D5EA4332A93E0940010D280 /* Rectangle.swift in Sources */,

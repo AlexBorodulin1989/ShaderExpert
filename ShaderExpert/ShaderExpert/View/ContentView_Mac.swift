@@ -43,9 +43,8 @@ struct ContentView_Mac: View {
             .alert(viewModel.alertText, isPresented: $viewModel.showingAlert) {
                 Button("OK", role: .cancel) { }
             }
-
-            if showCloudeDisk {
-                GoogleLoginView()
+            .sheet(isPresented: $showCloudeDisk) {
+                ShareView()
             }
         }
     }

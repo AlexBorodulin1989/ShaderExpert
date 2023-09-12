@@ -57,7 +57,8 @@ struct GoogleLoginView: ViewRepresentable {
                         if let error = error {
                             assert(false, error.localizedDescription)
                         } else {
-                            print(result)
+                            print(result?.user.accessToken.tokenString ?? "")
+                            result?.user.accessToken.expirationDate
                         }
                     }
                 }
