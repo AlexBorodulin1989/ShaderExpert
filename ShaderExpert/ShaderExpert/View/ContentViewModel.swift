@@ -24,12 +24,8 @@ final class ContentViewModel: ObservableObject {
 
     private var subscriptions = Set<AnyCancellable>()
 
-    private let savesDirectory = "shader_saves/"
-
-    private let fileManager = FileManager.default
-
     init() {
-        updateFilesList()
+        filesList = FileManagerService.shared.getFilesList().map { .init(name: $0) }
 
         NotificationCenter.default.publisher(for: .error)
             .sink { [weak self] object in
@@ -38,21 +34,6 @@ final class ContentViewModel: ObservableObject {
                 alertText = object.userInfo?["error"] as? String ?? ""
             }
             .store(in: &subscriptions)
-    }
-}
-
-// MARK: - Update
-extension ContentViewModel {
-    func updateFilesList() {
-        do {
-            let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory)
-
-            let files = (try fileManager.contentsOfDirectory(atPath: url.path())).map { $0.replacingOccurrences(of: ".txt", with: "") }
-
-            filesList = files.map { FileItem(name: $0) }
-        } catch {
-            assert(false, "Failed to read directory")
-        }
     }
 }
 
@@ -66,26 +47,12 @@ extension ContentViewModel {
     }
 
     func saveFile() {
-        let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory)
-
-        if !FileManager.default.fileExists(atPath: url.path) {
-            do {
-                try FileManager.default.createDirectory(atPath: url.path, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                showingAlert = true
-                alertText = error.localizedDescription
-            }
-        }
-
-        let fileUrl = url.appendingPathComponent(fileName + ".txt")
-
         do {
-            try shaderText.write(to: fileUrl, atomically: true, encoding: String.Encoding.utf8)
-
+            try FileManagerService.shared.saveFile(name: fileName, text: shaderText)
             showingAlert = true
-            alertText = "Saved to: \(url.absoluteString)"
+            alertText = "File saved"
 
-            updateFilesList()
+            filesList = FileManagerService.shared.getFilesList().map { .init(name: $0) }
         } catch {
             showingAlert = true
             alertText = error.localizedDescription
@@ -93,12 +60,10 @@ extension ContentViewModel {
     }
 
     func deleteFile(_ name: String) {
-        let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory + "/" + name + ".txt")
-
         do {
-            try fileManager.removeItem(at: url)
+            try FileManagerService.shared.deleteFile(name)
             shaderText = ""
-            updateFilesList()
+            filesList = FileManagerService.shared.getFilesList().map { .init(name: $0) }
         } catch {
             showingAlert = true
             alertText = error.localizedDescription
@@ -106,11 +71,8 @@ extension ContentViewModel {
     }
 
     func openFileName(_ name: String) {
-        let url = FileManager.documentDirectory().appendingPathComponent(savesDirectory + "/" + name + ".txt")
-
         do {
-            let data = try Data(contentsOf: url);
-            shaderText = String(decoding: data, as: UTF8.self)
+            shaderText = try FileManagerService.shared.openTextFileName(name)
             fileName = name
         } catch {
             showingAlert = true
